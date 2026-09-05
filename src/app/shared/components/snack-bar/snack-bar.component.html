@@ -1,0 +1,14 @@
+<div class="snackbar-container">
+  @for (msg of snackbarService.messages(); track msg.id) {
+    <div
+      class="snackbar"
+      [class]="msg.type"
+      @slideIn
+    >
+      <span>{{ msg.text }}</span>
+      <button class="close-btn" (click)="snackbarService.dismiss(msg.id)">
+        &times;
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,45 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmitForm()">
+  <app-form-field
+    controlName="email"
+    id="email"
+    label="Username"
+    placeholder="mail@mic.co.in"
+    type="text"
+  ></app-form-field>
+  <app-form-field
+    controlName="password"
+    id="password"
+    label="Password"
+    placeholder="Min. 6 characters"
+    type="password"
+  ></app-form-field>
+
+  <div class="forgot-password">
+    <span (click)="redirectToForgotPage()">Forgot password?</span>
+  </div>
+
+  <button
+    type="submit"
+    [class]="loginForm.invalid ? 'disable-btn' : 'login-btn'"
+  >
+    Login
+  </button>
+
+  <!-- <button type="button" class="google-btn" (click)="signWithGoogle()">
+    <img src="assets/images/google-logo.jpg" alt="Google" />
+    <span>Continue with Google</span>
+  </button> -->
+
+  <asl-google-signin-button
+    type="standard"
+    size="large"
+    shape="circle"
+    logo_alignment="center"
+  ></asl-google-signin-button>
+
+  <div class="signup">
+    <span
+      >Not registered yet? <a href="/create-account">Create Account</a></span
+    >
+  </div>
+</form>

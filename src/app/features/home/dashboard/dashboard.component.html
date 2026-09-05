@@ -1,0 +1,40 @@
+<div class="flex min-h-screen bg-[#F5F6FA]">
+  <app-sidebar></app-sidebar>
+
+  <main class="flex-1 p-8 overflow-y-auto">
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-semibold text-gray-900">Organization Dashboard</h1>
+      <p class="text-sm text-gray-400 mt-1">A live snapshot of your team across departments, roles, and time.</p>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+      <app-stat-card *ngFor="let s of stats"
+        [label]="s.label" [value]="s.value" [icon]="s.icon" [iconBg]="s.iconBg">
+      </app-stat-card>
+    </div>
+
+    <!-- Middle row: donut + bar -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+        <h2 class="text-sm font-semibold text-gray-900">By Department</h2>
+        <p class="text-xs text-gray-400 mt-0.5 mb-4">Distribution of people across teams</p>
+        <app-donut-chart [data]="departmentData"></app-donut-chart>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+        <h2 class="text-sm font-semibold text-gray-900">By Role Level</h2>
+        <p class="text-xs text-gray-400 mt-0.5 mb-6">Headcount per seniority level</p>
+        <app-bar-chart [data]="roleLevelData" [yMax]="6" [yStep]="2"></app-bar-chart>
+      </div>
+    </div>
+
+    <!-- Bottom: hiring growth -->
+    <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+      <h2 class="text-sm font-semibold text-gray-900">Hiring Growth</h2>
+      <p class="text-xs text-gray-400 mt-0.5 mb-6">New hires per year</p>
+      <app-line-chart [data]="hiringGrowthData" [yMax]="4" [yStep]="1"></app-line-chart>
+    </div>
+  </main>
+</div>

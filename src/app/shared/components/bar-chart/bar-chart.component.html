@@ -1,0 +1,45 @@
+<div class="flex gap-3">
+  <!-- Y axis -->
+  <div
+    class="flex flex-col justify-between text-[10px] text-gray-300 h-40 py-0.5"
+  >
+    <span *ngFor="let t of yTicks">{{ t }}</span>
+  </div>
+
+  <!-- Bars -->
+  <div
+    class="flex-1 flex items-end justify-between gap-3 h-40 border-l border-b border-gray-100 pl-3 pb-0"
+  >
+    <div
+      *ngFor="let d of data; let i = index"
+      class="flex-1 flex flex-col items-center justify-end h-full relative"
+      (mouseenter)="setHovered(i, d)"
+      (mouseleave)="clearHovered()"
+    >
+      <!-- Floating Badge / Tooltip with animation -->
+      <div
+        *ngIf="hoveredIndex === i"
+        class="absolute bottom-[105%] z-10 bg-gray-800 text-white text-[10px] font-bold py-1 px-1.5 rounded shadow-lg pointer-events-none transition-all duration-150 transform -translate-y-1 scale-110"
+      >
+        {{ hoveredValueAnimated }}
+      </div>
+
+      <!-- Bar -->
+      <div
+        class="w-full max-w-[22px] rounded-t-md transition-all cursor-pointer hover:brightness-105 shadow-sm"
+        [style.height.%]="heightPct(d.value)"
+        [style.background]="d.color"
+      ></div>
+    </div>
+  </div>
+</div>
+<div class="flex gap-3 mt-2">
+  <div class="w-6"></div>
+  <div class="flex-1 flex justify-between gap-3 pl-3">
+    <span
+      *ngFor="let d of data"
+      class="flex-1 text-center text-[10px] text-gray-400 font-medium"
+      >{{ d.label }}</span
+    >
+  </div>
+</div>

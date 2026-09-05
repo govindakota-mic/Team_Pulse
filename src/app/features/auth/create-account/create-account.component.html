@@ -1,0 +1,37 @@
+<form [formGroup]="createForm" (ngSubmit)="handleCreateAccount()">
+  <app-form-field
+    controlName="email"
+    id="email"
+    label="Email"
+    placeholder="mail@mic.co.in"
+    type="email"
+  ></app-form-field>
+  <app-form-field
+    controlName="username"
+    id="username"
+    label="User Name"
+    placeholder="John Doe"
+    type="text"
+  ></app-form-field>
+  <app-form-field
+    controlName="newPassword"
+    id="newPassword"
+    label="New Password"
+    placeholder="Min. 6 characters"
+    type="password"
+  ></app-form-field>
+  <app-form-field
+    controlName="confirmPassword"
+    id="ConfirmPassword"
+    label="confirm Password"
+    placeholder="Min. 6 characters"
+    type="password"
+  ></app-form-field>
+
+  <button
+    type="submit"
+    [class]="createForm.invalid ? 'disable-btn' : 'create-btn'"
+  >
+    Create Account
+  </button>
+</form>

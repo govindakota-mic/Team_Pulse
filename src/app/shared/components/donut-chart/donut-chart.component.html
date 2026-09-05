@@ -1,0 +1,20 @@
+<div class="flex flex-col items-center">
+  <div class="relative w-44 h-44 rounded-full" [style.background]="gradient">
+    <div class="absolute inset-[18%] bg-white rounded-full flex flex-col items-center justify-center text-center p-2 shadow-inner">
+      <span class="text-3xl font-extrabold text-gray-800 tracking-tight transition-all duration-300">{{ animatedValue }}</span>
+      <span class="text-[9px] text-gray-400 font-semibold uppercase tracking-wider mt-0.5 truncate max-w-[90%]">{{ hoveredSegment ? hoveredSegment.label : 'Total' }}</span>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mt-6">
+    <div 
+      *ngFor="let d of data" 
+      class="flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-all duration-150 py-0.5 px-1.5 rounded-md hover:bg-gray-50"
+      (mouseenter)="setHovered(d)"
+      (mouseleave)="clearHovered()"
+    >
+      <span class="w-2.5 h-2.5 rounded-full shadow-sm" [style.background]="d.color"></span>
+      <span class="text-xs text-gray-500 font-medium">{{ d.label }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+form {
+  width: 100vw;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.forgot-password {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forgot-password span {
+  color: #253fcd;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button {
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.login-btn {
+  background: #253fcd;
+  color: #fff;
+}
+
+.disable-btn {
+  background: #f0efef;
+  cursor: not-allowed;
+}
+
+.google-btn {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #333;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.signup {
+  text-align: center;
+  font-size: 15px;
+}
+
+.signup a {
+  color: #253fcd;
+  text-decoration: none;
+  font-weight: 600;
+}
