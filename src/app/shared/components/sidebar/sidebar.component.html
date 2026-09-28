@@ -25,35 +25,34 @@
         </svg>
       </div>
       <div class="leading-tight">
-        <p class="text-sm font-semibold text-gray-900">Pulse</p>
+        <p class="text-sm font-semibold text-gray-900">Team Pulse</p>
         <p class="text-xs text-gray-400">Team Workspace</p>
       </div>
     </div>
 
     <!-- Nav -->
     <nav class="flex flex-col gap-1">
-      <a
-        *ngFor="let item of navItems"
-        href="javascript:void(0)"
-        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
-        [ngClass]="
-          item.active
-            ? 'bg-indigo-50 text-indigo-600'
-            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-        "
-      >
-        <ng-container [ngSwitch]="item.icon">
+      @for (item of navItems; track item.link) {
+        <a
+          [routerLink]="item.link"
+          routerLinkActive="bg-indigo-50 text-indigo-600"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+        >
           <lucide-icon [img]="item.icon" [size]="18"></lucide-icon>
-        </ng-container>
-        {{ item.label }}
-      </a>
+          {{ item.label }}
+          @if (item.link === '/holidays' && pendingCount().length) {
+            <span class="ml-auto text-[11px] font-semibold bg-rose-500 text-white rounded-full px-1.5">{{ pendingCount().length }}</span>
+          }
+        </a>
+      }
     </nav>
   </div>
 
   <!-- Logout -->
-  <a
-    href="javascript:void(0)"
-    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+  <button
+    type="button"
+    (click)="logout()"
+    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors text-left"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -72,5 +71,5 @@
       <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
     Logout
-  </a>
+  </button>
 </aside>
