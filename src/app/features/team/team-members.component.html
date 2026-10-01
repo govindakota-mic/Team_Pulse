@@ -1,0 +1,118 @@
+<div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+  <div>
+    <h1 class="text-sm font-semibold text-gray-900">Team Members</h1>
+    <p class="text-sm text-gray-400 mt-1">{{ members().length }} of {{ total() }} people shown</p>
+  </div>
+  <button type="button" (click)="openForm()" class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">Add new member</button>
+</div>
+
+<div class="flex flex-wrap gap-3 mb-5">
+  <input type="search" placeholder="Search by name, role or email"
+    class="flex-1 min-w-[220px] rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"
+    (input)="search.set($any($event.target).value)" />
+  <select class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-indigo-400"
+    (change)="dept.set($any($event.target).value)">
+    @for (d of departments(); track d) { <option [value]="d">{{ d === 'All' ? 'All departments' : d }}</option> }
+  </select>
+  <label class="flex items-center gap-2 text-sm text-gray-500">Pay slip month
+    <app-date-picker mode="month" class="w-44" [value]="payMonth()" (valueChange)="payMonth.set($event)"></app-date-picker>
+  </label>
+</div>
+
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="text-left text-xs text-gray-400 border-b border-gray-100">
+        <th class="font-medium px-5 py-3">Name</th>
+        <th class="font-medium px-5 py-3">Role</th>
+        <th class="font-medium px-5 py-3">Department</th>
+        <th class="font-medium px-5 py-3">Level</th>
+        <th class="font-medium px-5 py-3">Joined</th>
+        <th class="font-medium px-5 py-3">Status</th>
+        <th class="font-medium px-5 py-3">Pay slip</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (m of members(); track m.id) {
+        <tr class="border-b border-gray-50 last:border-0 hover:bg-gray-50/60">
+          <td class="px-5 py-3">
+            <div class="flex items-center gap-3">
+              <span class="w-9 h-9 rounded-full bg-indigo-50 text-indigo-600 text-xs font-semibold flex items-center justify-center">{{ initials(m.name) }}</span>
+              <div>
+                <p class="font-medium text-gray-800">{{ m.name }}</p>
+                <p class="text-xs text-gray-400">{{ m.email }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="px-5 py-3 text-gray-600">{{ m.role }}</td>
+          <td class="px-5 py-3 text-gray-600">{{ m.department }}</td>
+          <td class="px-5 py-3 text-gray-600">{{ m.level }}</td>
+          <td class="px-5 py-3 text-gray-600">{{ since(m.joinDate) | date: 'MMM d, y' }}</td>
+          <td class="px-5 py-3">
+            <span class="text-xs font-medium rounded-full px-2.5 py-1" [class]="m.active ? 'bg-emerald-50 text-emerald-600' : 'bg-gray-100 text-gray-500'">
+              {{ m.active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="px-5 py-3">
+            <button type="button" (click)="payslip(m)" [attr.aria-label]="'Download pay slip for ' + m.name"
+              class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50 hover:text-indigo-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download
+            </button>
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="7" class="px-5 py-10 text-center text-gray-400">No one matches that search. Try a different name or department.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (showForm()) {
+  <div class="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4" (click)="closeForm()">
+    <form [formGroup]="form" (ngSubmit)="save()" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="add-title"
+      class="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
+      <h2 id="add-title" class="text-sm font-semibold text-gray-900 mb-4">Add new member</h2>
+      <div class="grid gap-4 sm:grid-cols-2 mb-6">
+        <label class="text-xs text-gray-500 ">Full name
+          <input type="text" formControlName="name" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm text-gray-800 outline-none focus:border-indigo-400" [class]="invalid('name') ? 'border-rose-400' : 'border-gray-200'" />
+          @if (invalid('name')) { <span class="text-rose-500">Enter the full name.</span> }
+        </label>
+        <label class="text-xs text-gray-500">Work email
+          <input type="email" formControlName="email" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm text-gray-800 outline-none focus:border-indigo-400" [class]="invalid('email') ? 'border-rose-400' : 'border-gray-200'" />
+          @if (invalid('email')) { <span class="text-rose-500">{{ form.get('email')?.hasError('taken') ? 'This email is already on the team.' : 'Enter a valid email.' }}</span> }
+        </label>
+        <label class="text-xs text-gray-500 ">Department
+          <input type="text" formControlName="department" list="dept-options" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm text-gray-800 outline-none focus:border-indigo-400" [class]="invalid('department') ? 'border-rose-400' : 'border-gray-200'" />
+          @if (invalid('department')) { <span class="text-rose-500">Enter a department.</span> }
+        </label>
+        <datalist id="dept-options">@for (d of deptOptions(); track d) { <option [value]="d"></option> }</datalist>
+        <label class="text-xs text-gray-500 ">Role
+          <input type="text" formControlName="role" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm text-gray-800 outline-none focus:border-indigo-400" [class]="invalid('role') ? 'border-rose-400' : 'border-gray-200'" />
+          @if (invalid('role')) { <span class="text-rose-500">Enter a role.</span> }
+        </label>
+        <label class="text-xs text-gray-500">Level
+          <select formControlName="level" class="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-800">
+            @for (l of levels; track l) { <option [value]="l">{{ l }}</option> }
+          </select>
+        </label>
+        <label class="text-xs text-gray-500 ">Monthly gross salary (INR)
+          <input type="number" formControlName="monthlySalary" min="1000" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm text-gray-800 outline-none focus:border-indigo-400" [class]="invalid('monthlySalary') ? 'border-rose-400' : 'border-gray-200'" />
+          @if (invalid('monthlySalary')) { <span class="text-rose-500">Enter at least 1,000.</span> }
+        </label>
+        <label class="text-xs text-gray-500 ">Date of birth
+          <app-date-picker formControlName="dob" [max]="today" [invalid]="invalid('dob')" class="mt-1 block"></app-date-picker>
+          @if (invalid('dob')) { <span class="text-rose-500">Choose a date of birth.</span> }
+        </label>
+        <label class="text-xs text-gray-500 ">Joining date
+          <app-date-picker formControlName="joinDate" [invalid]="invalid('joinDate')" class="mt-1 block"></app-date-picker>
+          @if (invalid('joinDate')) { <span class="text-rose-500">Choose a joining date.</span> }
+        </label>
+      </div>
+      <div class="flex justify-end gap-3">
+        <button type="button" (click)="closeForm()" class="rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50">Cancel</button>
+        <button type="submit" class="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700">Add member</button>
+      </div>
+    </form>
+  </div>
+}
