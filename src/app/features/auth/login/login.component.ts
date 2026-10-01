@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { SnackbarService } from '../../../services/snack-bar/snack-bar.service';
 import {
@@ -19,7 +19,7 @@ import { AuthService, LoginRequest } from '../../../services/auth/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FormFieldComponent, GoogleSigninButtonModule],
+  imports: [ReactiveFormsModule, FormFieldComponent, GoogleSigninButtonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -97,9 +97,9 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('authUsers', JSON.stringify(authUsers));
     }
 
-    localStorage.setItem('isLoggedIn', JSON.stringify(true));
     localStorage.setItem('currentUser', JSON.stringify(googleUser));
+    this.auth.setSession(user.email);
     this.snackbar.success('Logged in successfully with Google!');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/dashboard']);
   }
 }

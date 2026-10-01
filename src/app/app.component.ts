@@ -10,5 +10,5 @@ import { SnackBarComponent } from './shared/components/snack-bar/snack-bar.compo
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'my-angular-app';
+  title = 'team-pulse';
 }
