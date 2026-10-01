@@ -8,6 +8,11 @@
     <app-stat-card [label]="s.label" [value]="s.value" [icon]="s.icon" [iconBg]="s.iconBg"></app-stat-card>
   }
 </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+  @for (s of stats; track s.label) {
+    <app-stat-card [label]="s.label" [value]="s.value" [icon]="s.icon" [iconBg]="s.iconBg"></app-stat-card>
+  }
+</div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
   <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">

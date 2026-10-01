@@ -6,6 +6,7 @@ import { DataService } from '../../../services/data/data.service';
 import { LayoutService } from '../../../services/layout/layout.service';
 
 interface NavItem { label: string; icon: LucideIconData; link: string; }
+interface NavItem { label: string; icon: LucideIconData; link: string; }
 
 @Component({
   selector: 'app-sidebar',
