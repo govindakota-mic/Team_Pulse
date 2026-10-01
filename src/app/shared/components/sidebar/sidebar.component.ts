@@ -1,11 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { CakeIcon, CalendarDays, LayoutDashboard, LucideAngularModule, LucideIconData, Users } from 'lucide-angular';
+import {
+  CakeIcon,
+  CalendarDays,
+  LayoutDashboard,
+  LucideAngularModule,
+  LucideIconData,
+  Users,
+} from 'lucide-angular';
 import { AuthService } from '../../../services/auth/auth.service';
 import { DataService } from '../../../services/data/data.service';
 import { LayoutService } from '../../../services/layout/layout.service';
 
-interface NavItem { label: string; icon: LucideIconData; link: string; }
+interface NavItem {
+  label: string;
+  icon: LucideIconData;
+  link: string;
+}
 
 @Component({
   selector: 'app-sidebar',

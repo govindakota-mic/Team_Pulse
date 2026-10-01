@@ -1,50 +1,114 @@
+<!-- Dashboard Header -->
 <div class="mb-6">
   <h1 class="text-sm font-semibold text-gray-900">Organization Dashboard</h1>
-  <p class="text-sm text-gray-400 mt-1">A live snapshot of your team across departments, roles, and time.</p>
+
+  <p class="text-sm text-gray-400 mt-1">
+    A live snapshot of your team across departments, roles, and time.
+  </p>
 </div>
 
+<!-- Statistics -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
   @for (s of stats; track s.label) {
-    <app-stat-card [label]="s.label" [value]="s.value" [icon]="s.icon" [iconBg]="s.iconBg"></app-stat-card>
+    <app-stat-card
+      [label]="s.label"
+      [value]="s.value"
+      [icon]="s.icon"
+      [iconBg]="s.iconBg"
+    ></app-stat-card>
   }
 </div>
 
+<!-- Department & Role Level -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+  <!-- Department -->
   <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
     <h2 class="text-xs font-semibold text-gray-900">By Department</h2>
-    <p class="text-xs text-gray-400 mt-0.5 mb-4">Distribution of people across teams</p>
+
+    <p class="text-xs text-gray-400 mt-0.5 mb-4">
+      Distribution of people across teams
+    </p>
+
     <app-donut-chart [data]="departmentData"></app-donut-chart>
   </div>
+
+  <!-- Role Level -->
   <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
     <h2 class="text-xs font-semibold text-gray-900">By Role Level</h2>
-    <p class="text-xs text-gray-400 mt-0.5 mb-6">Headcount per seniority level</p>
-    <app-bar-chart [data]="roleLevelData" [yMax]="roleMax" [yStep]="2"></app-bar-chart>
+
+    <p class="text-xs text-gray-400 mt-0.5 mb-6">
+      Headcount per seniority level
+    </p>
+
+    <app-bar-chart
+      [data]="roleLevelData"
+      [yMax]="roleMax"
+      [yStep]="2"
+    ></app-bar-chart>
   </div>
 </div>
 
+<!-- Hiring Growth & Upcoming -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-  <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+  <!-- Hiring Growth -->
+  <div
+    class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 shadow-sm"
+  >
     <h2 class="text-xs font-semibold text-gray-900">Hiring Growth</h2>
+
     <p class="text-xs text-gray-400 mt-0.5 mb-6">New hires per year</p>
-    <app-line-chart [data]="hiringGrowthData" [yMax]="hiringMax" [yStep]="1"></app-line-chart>
+
+    <app-line-chart
+      [data]="hiringGrowthData"
+      [yMax]="hiringMax"
+      [yStep]="1"
+    ></app-line-chart>
   </div>
+
+  <!-- Coming Up -->
   <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-xs font-semibold text-gray-900">Coming up this month</h2>
-      <a routerLink="/celebrations" class="text-xs text-indigo-600 hover:underline">View all</a>
+
+      <a
+        routerLink="/celebrations"
+        class="text-xs text-indigo-600 hover:underline"
+      >
+        View all
+      </a>
     </div>
+
     @for (c of upcoming; track c.employee.id + c.kind) {
-      <div class="flex items-center justify-between py-2.5 border-t border-gray-50 first:border-0">
+      <div
+        class="flex items-center justify-between py-2.5 border-t border-gray-50 first:border-0"
+      >
         <div>
-          <p class="text-sm font-medium text-gray-800">{{ c.employee.name }}</p>
-          <p class="text-xs text-gray-400">{{ c.kind === 'Birthday' ? 'Birthday' : c.years + (c.years === 1 ? ' year' : ' years') + ' at Team Pulse' }}</p>
+          <p class="text-sm font-medium text-gray-800">
+            {{ c.employee.name }}
+          </p>
+
+          <p class="text-xs text-gray-400">
+            {{
+              c.kind === "Birthday"
+                ? "Birthday"
+                : c.years +
+                  (c.years === 1 ? " year" : " years") +
+                  " at Team Pulse"
+            }}
+          </p>
         </div>
-        <span class="text-xs font-medium" [class]="c.daysAway === 0 ? 'text-rose-500' : 'text-gray-400'">
-          {{ c.daysAway === 0 ? 'Today' : (c.date | date: 'MMM d') }}
+
+        <span
+          class="text-xs font-medium"
+          [class]="c.daysAway === 0 ? 'text-rose-500' : 'text-gray-400'"
+        >
+          {{ c.daysAway === 0 ? "Today" : (c.date | date: "MMM d") }}
         </span>
       </div>
     } @empty {
-      <p class="text-sm text-gray-400">No birthdays or anniversaries in the next 30 days.</p>
+      <p class="text-sm text-gray-400">
+        No birthdays or anniversaries in the next 30 days.
+      </p>
     }
   </div>
 </div>
